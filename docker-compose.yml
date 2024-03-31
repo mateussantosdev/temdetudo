@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.7"
 
 services:
     # image project
@@ -12,6 +12,7 @@ services:
             - ./:/var/www
         depends_on:
             - redis
+            - database
         networks:
             - laravel
 
@@ -29,18 +30,18 @@ services:
 
     # database mysql
     database:
-        image: mysql:8.0
+        image: mysql:5.7.22
         platform: linux/x86_64
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE:-temdetudo}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
-            MYSQL_USER: ${DB_USERNAME:-username}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
         volumes:
             - ./.docker/database:/var/lib/mysql
         ports:
-            - "3388:3306"
+            - "3306:3306"
         networks:
             - laravel
 
